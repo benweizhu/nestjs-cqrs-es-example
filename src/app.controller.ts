@@ -1,4 +1,5 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Req } from '@nestjs/common';
+import { Request } from 'express';
 import { AppService } from './app.service';
 
 @Controller()
@@ -10,9 +11,9 @@ export class AppController {
     return this.appService.getHello();
   }
 
-  @Get('/user')
-  getWorld(): string {
-    return this.appService.getWorld();
+  @Get('/users/:id')
+  findUserById(@Req() request: Request): string {
+    return this.appService.findUserById(Number.parseInt(request.params.id));
   }
 
 }
