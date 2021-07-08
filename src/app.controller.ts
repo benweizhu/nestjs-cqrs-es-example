@@ -1,4 +1,4 @@
-import { Controller, Get, Req } from '@nestjs/common';
+import { Controller, Get, Post, Req } from '@nestjs/common';
 import { Request } from 'express';
 import { AppService } from './app.service';
 
@@ -14,6 +14,11 @@ export class AppController {
   @Get('/users/:id')
   findUserById(@Req() request: Request): string {
     return this.appService.findUserById(Number.parseInt(request.params.id));
+  }
+
+  @Post('/users')
+  createUser(@Req() request: Request): string {
+    return this.appService.createUser(request.body)
   }
 
 }
