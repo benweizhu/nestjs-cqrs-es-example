@@ -1,10 +1,11 @@
 import { Injectable } from '@nestjs/common';
+import { CreateUserRequest } from './app.controller';
 
 @Injectable()
 export class AppService {
 
-  createUser(body: any): string {
-    return body;
+  createUser(createUserRequest: CreateUserRequest): CreateUserRequest {
+    return createUserRequest;
   }
 
   findUserById(id: number): string {

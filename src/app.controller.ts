@@ -21,7 +21,7 @@ export class AppController {
   }
 
   @Post('/users')
-  createUser(@Body() createUserRequest: CreateUserRequest): string {
+  createUser(@Body() createUserRequest: CreateUserRequest): CreateUserRequest {
     return this.appService.createUser(createUserRequest)
   }
 
