@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Req } from '@nestjs/common';
+import { Controller, Get, Param, Post, Req } from '@nestjs/common';
 import { Request } from 'express';
 import { AppService } from './app.service';
 
@@ -12,8 +12,8 @@ export class AppController {
   }
 
   @Get('/users/:id')
-  findUserById(@Req() request: Request): string {
-    return this.appService.findUserById(Number.parseInt(request.params.id));
+  findUserById(@Param() params): string {
+    return this.appService.findUserById(Number.parseInt(params.id));
   }
 
   @Post('/users')

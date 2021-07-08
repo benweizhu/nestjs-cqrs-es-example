@@ -8,7 +8,7 @@ export class AppService {
   }
 
   findUserById(id: number): string {
-    return `Find user with id ${id}`
+    return `Finds user with id ${id}`
   }
 
   getHello(): string {
