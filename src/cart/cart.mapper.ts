@@ -9,6 +9,6 @@ export function toAddItemToCartCommand(addItemToCartRequest: AddItemToCartReques
 
 export function toDeleteItemFromCartCommand(deleteItemFromCartRequest: DeleteItemFromCartRequest): DeleteItemFromCartCommand {
     return {
-        id: deleteItemFromCartRequest.id,
+        name: deleteItemFromCartRequest.name,
     }
 }

@@ -12,13 +12,13 @@ export class CartController {
   @Post('/cart/add-item')
   addItemToCart(@Body() addItemToCartRequest: AddItemToCartRequest): number {
     const addItemToCartCommand = toAddItemToCartCommand(addItemToCartRequest);
-    return this.cartService.addItemToCart(addItemToCartCommand);
+    return this.cartService.addItemToCart(addItemToCartCommand).items.length;
   }
 
   @Post('/cart/delete-item')
   deleteItemFromCart(@Body() deleteItemFromCartRequest: DeleteItemFromCartCommand): number {
     const deleteItemFromCartCommand = toDeleteItemFromCartCommand(deleteItemFromCartRequest);
-    return this.cartService.deleteItemFromCart(deleteItemFromCartCommand);
+    return this.cartService.deleteItemFromCart(deleteItemFromCartCommand).items.length;
   }
 
 }
