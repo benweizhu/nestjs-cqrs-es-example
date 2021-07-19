@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
-import { CreateOrderRequest } from './order.controller';
+import { CreateOrderCommand } from './order.model';
 
 @Injectable()
 export class OrderService {
 
-  createUser(createUserRequest: CreateOrderRequest): CreateOrderRequest {
-    return createUserRequest;
+  createUser(createOrderCommand: CreateOrderCommand): number {
+    return createOrderCommand.totalPrice;
   }
 
 }
