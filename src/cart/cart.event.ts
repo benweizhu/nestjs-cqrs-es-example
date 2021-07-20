@@ -1,47 +1,38 @@
+import { AddItemToCartCommand, Cart, DeleteItemFromCartCommand } from "./cart.model";
+
 export interface Event {
     aggregateRootId: string;
     aggregateRootType: string;
     eventVersion: number;
     eventTime: string;
-    commandId: number;
+    eventData: {},
     commandType: string;
+    commandData: {};
     commandTime: string;
 }
 
-export interface DeleteItemFromCartEvent extends Event {
-    eventData: {
-
-    }
-}
-
-export function buildDeleteItemFromCartEvent(): DeleteItemFromCartEvent {
+export function buildDeleteItemFromCartEvent(cart: Cart, lastEventVersion: number, command: DeleteItemFromCartCommand): Event {
     return {
-        aggregateRootId: '',
-        aggregateRootType: 'string',
-        eventVersion: 0,
-        eventTime: 'string',
-        commandId: 0,
-        commandType: '',
+        aggregateRootId: cart.id,
+        aggregateRootType: 'Cart',
+        eventVersion: lastEventVersion + 1,
+        eventTime: new Date().toUTCString(),
         eventData: {},
+        commandType: 'DeleteItemFromCart',
+        commandData: command,
         commandTime: 'string'
     }
 }
 
-export interface AddItemToCartEvent extends Event {
-    eventData: {
-
-    }
-}
-
-export function buildAddItemToCartEvent(): AddItemToCartEvent {
+export function buildAddItemToCartEvent(cart: Cart, lastEventVersion: number, command: AddItemToCartCommand): Event {
     return {
-        aggregateRootId: '',
-        aggregateRootType: 'string',
-        eventVersion: 0,
-        eventTime: 'string',
-        commandId: 0,
-        commandType: '',
+        aggregateRootId: cart.id,
+        aggregateRootType: 'Cart',
+        eventVersion: lastEventVersion + 1,
+        eventTime: new Date().toUTCString(),
         eventData: {},
+        commandType: 'AddItemToCart',
+        commandData: command,
         commandTime: 'string'
     }
 }
@@ -55,6 +46,7 @@ class EventStorage {
     }
 
     store(event: Event) {
+        // Check event version
         this.events.push(event);
     }
 
