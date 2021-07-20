@@ -1,3 +1,5 @@
+import { AddItemToCartEvent, buildAddItemToCartEvent, buildDeleteItemFromCartEvent, DeleteItemFromCartEvent } from "./cart.event";
+
 export interface AddItemToCartRequest {
     name: string,
     price: number,
@@ -18,23 +20,28 @@ export interface DeleteItemFromCartCommand {
 
 export class Cart {
 
+    id: string;
+
     items: Array<CartItem>;
 
-    constructor() {
+    constructor(id: string) {
+        this.id = id;
         this.items = [];
     }
 
-    addCartItem(name: string, price: number) {
+    addCartItem(name: string, price: number): AddItemToCartEvent {
         this.items.push(new CartItem(name, price));
+        return buildAddItemToCartEvent();
     }
 
-    deleteCartItem(name: string) {
+    deleteCartItem(name: string): DeleteItemFromCartEvent {
         const found = this.items.findIndex((item) =>
             name === item.name
         );
         if (found > -1) {
             this.items.splice(found, 1);
         }
+        return buildDeleteItemFromCartEvent();
     }
 }
 

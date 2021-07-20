@@ -7,14 +7,14 @@ export class CartService {
 
   deleteItemFromCart(deleteItemFromCartCommand: DeleteItemFromCartCommand): Cart {
     const cart = getCartAggregate();
-    cart.deleteCartItem(deleteItemFromCartCommand.name)
+    const event = cart.deleteCartItem(deleteItemFromCartCommand.name);
+    
     return cart;
   }
 
   addItemToCart(addItemToCartCommand: AddItemToCartCommand): Cart {
     const cart = getCartAggregate();
-    cart.addCartItem(addItemToCartCommand.name, addItemToCartCommand.price);
-    console.log(cart);
+    const event = cart.addCartItem(addItemToCartCommand.name, addItemToCartCommand.price);
     return cart;
   }
 
