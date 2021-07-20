@@ -2,13 +2,11 @@ import { eventStorage } from "./cart.event";
 import { handlerReducer } from "./cart.handler";
 import { Cart } from "./cart.model";
 
-const cart = new Cart('7643234567123');
-
-export function getCartAggregate() {
+export function getCurrentStateOfCart() {
     const events = eventStorage.query();
-    events.reduce(handlerReducer, cart)
+    const currentStateOfCart = events.reduce(handlerReducer, new Cart('7643234567123'));
     return {
-        cart,
+        cart: currentStateOfCart,
         lastEventVersion: 1
     };
 }
