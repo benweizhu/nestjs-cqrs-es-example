@@ -4,6 +4,7 @@ export interface Event {
     aggregateRootId: string;
     aggregateRootType: string;
     eventVersion: number;
+    eventType: string;
     eventTime: string;
     eventData: {},
     commandType: string;
@@ -16,9 +17,10 @@ export function buildDeleteItemFromCartEvent(cart: Cart, lastEventVersion: numbe
         aggregateRootId: cart.id,
         aggregateRootType: 'Cart',
         eventVersion: lastEventVersion + 1,
-        eventTime: new Date().toUTCString(),
+        eventTime: new Date().toISOString(),
         eventData: {},
-        commandType: 'DeleteItemFromCart',
+        eventType: 'deleteItemFromCart',
+        commandType: 'deleteItemFromCart',
         commandData: command,
         commandTime: 'string'
     }
@@ -29,9 +31,10 @@ export function buildAddItemToCartEvent(cart: Cart, lastEventVersion: number, co
         aggregateRootId: cart.id,
         aggregateRootType: 'Cart',
         eventVersion: lastEventVersion + 1,
-        eventTime: new Date().toUTCString(),
+        eventTime: new Date().toISOString(),
         eventData: {},
-        commandType: 'AddItemToCart',
+        eventType: 'addItemToCart',
+        commandType: 'addItemToCart',
         commandData: command,
         commandTime: 'string'
     }
@@ -46,7 +49,6 @@ class EventStorage {
     }
 
     store(event: Event) {
-        // Check event version
         this.events.push(event);
     }
 

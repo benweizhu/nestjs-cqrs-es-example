@@ -5,6 +5,11 @@ import { AddItemToCartCommand, Cart, DeleteItemFromCartCommand } from './cart.mo
 
 @Injectable()
 export class CartService {
+  
+  getCart(): Cart {
+    const { cart } = getCartAggregate();
+    return cart;
+  }
 
   deleteItemFromCart(deleteItemFromCartCommand: DeleteItemFromCartCommand): Cart {
     const { cart, lastEventVersion } = getCartAggregate();

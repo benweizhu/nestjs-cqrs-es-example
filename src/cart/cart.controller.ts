@@ -1,6 +1,7 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Event, eventStorage } from './cart.event';
 import { toAddItemToCartCommand, toDeleteItemFromCartCommand } from './cart.mapper';
-import { AddItemToCartRequest, DeleteItemFromCartCommand } from './cart.model';
+import { AddItemToCartRequest, Cart, DeleteItemFromCartCommand } from './cart.model';
 import { CartService } from './cart.service';
 
 
@@ -19,6 +20,16 @@ export class CartController {
   deleteItemFromCart(@Body() deleteItemFromCartRequest: DeleteItemFromCartCommand): number {
     const deleteItemFromCartCommand = toDeleteItemFromCartCommand(deleteItemFromCartRequest);
     return this.cartService.deleteItemFromCart(deleteItemFromCartCommand).items.length;
+  }
+
+  @Get('/cart')
+  getCart(): Cart {
+    return this.cartService.getCart();
+  }
+
+  @Get('/events')
+  getEvents(): Array<Event> {
+    return eventStorage.query();
   }
 
 }

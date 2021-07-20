@@ -1,5 +1,3 @@
-import { AddItemToCartEvent, buildAddItemToCartEvent, buildDeleteItemFromCartEvent, DeleteItemFromCartEvent } from "./cart.event";
-
 export interface AddItemToCartRequest {
     name: string,
     price: number,
