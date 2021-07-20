@@ -1,5 +1,5 @@
 import { Event, eventStorage } from "./cart.event";
-import { handlerReducer } from "./cart.handler";
+import { projectorReducer } from "./cart.projector";
 import { Cart } from "./cart.model";
 
 function getLastEventVersion(events: Array<Event>) {
@@ -11,7 +11,7 @@ function getLastEventVersion(events: Array<Event>) {
 
 export function getCurrentStateOfCart() {
     const events = eventStorage.query();
-    const currentStateOfCart = events.reduce(handlerReducer, new Cart('7643234567123'));
+    const currentStateOfCart = events.reduce(projectorReducer, new Cart('7643234567123'));
     return {
         cart: currentStateOfCart,
         lastEventVersion: getLastEventVersion(events)
