@@ -46,4 +46,22 @@ export function buildAddItemToCartEvent(): AddItemToCartEvent {
     }
 }
 
-const events =
+class EventStorage {
+
+    events: Array<Event>
+
+    constructor() {
+        this.events = []
+    }
+
+    store(event: Event) {
+        this.events.push(event);
+    }
+
+    query(): Array<Event> {
+        return this.events;
+    }
+
+}
+
+export const eventStorage = new EventStorage();
