@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { getCurrentStateOfCart } from './cart.aggregate';
+import { getCurrentStateOfCart } from './cart.state';
 import { buildAddItemToCartEvent, buildDeleteItemFromCartEvent, eventStorage } from './cart.event';
 import { AddItemToCartCommand, Cart, DeleteItemFromCartCommand } from './cart.model';
 
@@ -13,15 +13,23 @@ export class CartService {
 
   deleteItemFromCart(deleteItemFromCartCommand: DeleteItemFromCartCommand): Cart {
     const { cart, lastEventVersion } = getCurrentStateOfCart();
+
     cart.deleteCartItem(deleteItemFromCartCommand.name);
-    eventStorage.store(buildDeleteItemFromCartEvent(cart, lastEventVersion, deleteItemFromCartCommand));
+
+    const deleteItemFromCartEvent = buildDeleteItemFromCartEvent(cart, lastEventVersion, deleteItemFromCartCommand);
+    eventStorage.store(deleteItemFromCartEvent);
+
     return cart;
   }
 
   addItemToCart(addItemToCartCommand: AddItemToCartCommand): Cart {
     const { cart, lastEventVersion } = getCurrentStateOfCart();
+
     cart.addCartItem(addItemToCartCommand.name, addItemToCartCommand.price);
-    eventStorage.store(buildAddItemToCartEvent(cart, lastEventVersion, addItemToCartCommand));
+
+    const addItemToCartEvent = buildAddItemToCartEvent(cart, lastEventVersion, addItemToCartCommand);
+    eventStorage.store(addItemToCartEvent);
+
     return cart;
   }
 
