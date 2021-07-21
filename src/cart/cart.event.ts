@@ -1,4 +1,5 @@
-import { AddItemToCartCommand, Cart, DeleteItemFromCartCommand } from "./cart.model";
+import { Cart } from "./cart.aggregate";
+import { AddItemToCartCommand, DeleteItemFromCartCommand } from "./cart.model";
 
 export interface Event {
     aggregateRootId: string;
@@ -12,13 +13,29 @@ export interface Event {
     commandTime: string;
 }
 
-export function buildDeleteItemFromCartEvent(cart: Cart, lastEventVersion: number, command: DeleteItemFromCartCommand): Event {
+export interface AddItemToCartEvent extends Event {
+    eventData: {
+        name: string,
+        price: number
+    }
+}
+
+export interface DeleteItemFromCartEvent extends Event {
+    eventData: {
+        name: string
+    }
+}
+
+
+export function buildDeleteItemFromCartEvent(cart: Cart, lastEventVersion: number, command: DeleteItemFromCartCommand): DeleteItemFromCartEvent {
     return {
         aggregateRootId: cart.id,
         aggregateRootType: 'Cart',
         eventVersion: lastEventVersion + 1,
         eventTime: new Date().toISOString(),
-        eventData: {},
+        eventData: {
+            name: command.name
+        },
         eventType: 'deleteItemFromCart',
         commandType: 'deleteItemFromCart',
         commandData: command,
@@ -26,13 +43,16 @@ export function buildDeleteItemFromCartEvent(cart: Cart, lastEventVersion: numbe
     }
 }
 
-export function buildAddItemToCartEvent(cart: Cart, lastEventVersion: number, command: AddItemToCartCommand): Event {
+export function buildAddItemToCartEvent(cart: Cart, lastEventVersion: number, command: AddItemToCartCommand): AddItemToCartEvent {
     return {
         aggregateRootId: cart.id,
         aggregateRootType: 'Cart',
         eventVersion: lastEventVersion + 1,
         eventTime: new Date().toISOString(),
-        eventData: {},
+        eventData: {
+            name: command.name,
+            price: command.price
+        },
         eventType: 'addItemToCart',
         commandType: 'addItemToCart',
         commandData: command,

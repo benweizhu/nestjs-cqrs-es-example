@@ -1,17 +1,9 @@
-import { Event } from "./cart.event"
-import { Cart } from "./cart.model"
-
-function projectDeleteItemFromCartEvent(cart: Cart, event: Event): Cart {
-    return cart;
-};
-
-function projectAddItemToCartEvent(cart: Cart, event: Event): Cart {
-    return cart;
-};
+import { Cart } from "./cart.aggregate";
+import { AddItemToCartEvent, DeleteItemFromCartEvent, Event } from "./cart.event"
 
 const projectors = {
-    deleteItemFromCart: projectDeleteItemFromCartEvent,
-    addItemToCart: projectAddItemToCartEvent
+    deleteItemFromCart: (cart: Cart, event: DeleteItemFromCartEvent) => { cart.deleteCartItem(event); return cart },
+    addItemToCart: (cart: Cart, event: AddItemToCartEvent) => { cart.addCartItem(event); return cart },
 }
 
 export function projectorReducer(cart: Cart, event: Event) {

@@ -1,6 +1,6 @@
+import { Cart } from "./cart.aggregate";
 import { Event, eventStorage } from "./cart.event";
 import { projectorReducer } from "./cart.projector";
-import { Cart } from "./cart.model";
 
 function getLastEventVersion(events: Array<Event>) {
     if (events && events.length > 0) {

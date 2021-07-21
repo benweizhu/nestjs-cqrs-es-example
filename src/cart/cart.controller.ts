@@ -1,7 +1,8 @@
 import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Cart } from './cart.aggregate';
 import { Event, eventStorage } from './cart.event';
 import { toAddItemToCartCommand, toDeleteItemFromCartCommand } from './cart.mapper';
-import { AddItemToCartRequest, Cart, DeleteItemFromCartCommand } from './cart.model';
+import { AddItemToCartRequest, DeleteItemFromCartCommand } from './cart.model';
 import { CartService } from './cart.service';
 
 
