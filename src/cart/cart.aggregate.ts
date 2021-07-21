@@ -1,4 +1,4 @@
-import { AddItemToCartEvent, buildAddItemToCartEvent, buildDeleteItemFromCartEvent, DeleteItemFromCartEvent } from "./cart.event";
+import { AddItemToCartEvent, DeleteItemFromCartEvent } from "./cart.event";
 import { AddItemToCartCommand, DeleteItemFromCartCommand } from "./cart.model";
 
 export class EventAggregate {

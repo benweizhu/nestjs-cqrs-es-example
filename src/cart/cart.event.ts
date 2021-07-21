@@ -11,6 +11,14 @@ export class Event {
     commandType: string;
     commandData: {};
     commandTime: string;
+
+    constructor(commandData, aggreateRoot) {
+        this.eventTime = new Date().toISOString();
+        this.commandTime = new Date().toISOString();
+        this.commandData = commandData;
+        this.aggregateRootId = aggreateRoot.id;
+        this.eventVersion = aggreateRoot.eventVersion + 1;
+    }
 }
 
 export class AddItemToCartEvent extends Event {
@@ -21,19 +29,14 @@ export class AddItemToCartEvent extends Event {
     }
 
     private constructor(cart: Cart, command: AddItemToCartCommand) {
-        super();
-        this.aggregateRootId = cart.id;
+        super(command, cart);
         this.aggregateRootType = 'Cart';
-        this.eventVersion = cart.eventVersion + 1;
-        this.eventTime = new Date().toISOString();
         this.eventData = {
             name: command.name,
             price: command.price
         };
         this.eventType = 'addItemToCart';
         this.commandType = 'addItemToCart';
-        this.commandData = command;
-        this.commandTime = new Date().toISOString();
     }
 
     static build(cart: Cart, command: AddItemToCartCommand): AddItemToCartEvent {
@@ -42,23 +45,19 @@ export class AddItemToCartEvent extends Event {
 }
 
 export class DeleteItemFromCartEvent extends Event {
+
     eventData: {
         name: string
     }
 
     private constructor(cart: Cart, command: DeleteItemFromCartCommand) {
-        super();
-        this.aggregateRootId = cart.id;
+        super(command, cart);
         this.aggregateRootType = 'Cart';
-        this.eventVersion = cart.eventVersion + 1;
-        this.eventTime = new Date().toISOString();
         this.eventData = {
             name: command.name
         };
         this.eventType = 'deleteItemFromCart';
         this.commandType = 'deleteItemFromCart';
-        this.commandData = command;
-        this.commandTime = new Date().toISOString();
     }
 
     static build(cart: Cart, command: DeleteItemFromCartCommand): DeleteItemFromCartEvent {
