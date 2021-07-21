@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { getCurrentStateOfCart } from './cart.state';
 import { eventStorage } from './cart.event';
 import { AddItemToCartCommand, DeleteItemFromCartCommand } from './cart.model';
 import { Cart } from './cart.aggregate';
+import { getCurrentStateOfCart } from './cart.projector';
 
 @Injectable()
 export class CartService {
