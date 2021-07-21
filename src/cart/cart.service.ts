@@ -13,11 +13,9 @@ export class CartService {
   }
 
   deleteItemFromCart(deleteItemFromCartCommand: DeleteItemFromCartCommand): Cart {
-    const { cart, lastEventVersion } = getCurrentStateOfCart();
+    const { cart } = getCurrentStateOfCart();
 
-    const deleteItemFromCartEvent = buildDeleteItemFromCartEvent(cart, lastEventVersion, deleteItemFromCartCommand);
-
-    cart.deleteCartItem(deleteItemFromCartEvent);
+    const deleteItemFromCartEvent = cart.deleteCartItem(deleteItemFromCartCommand);
 
     eventStorage.store(deleteItemFromCartEvent);
 
@@ -25,11 +23,9 @@ export class CartService {
   }
 
   addItemToCart(addItemToCartCommand: AddItemToCartCommand): Cart {
-    const { cart, lastEventVersion } = getCurrentStateOfCart();
+    const { cart } = getCurrentStateOfCart();
 
-    const addItemToCartEvent = buildAddItemToCartEvent(cart, lastEventVersion, addItemToCartCommand);
-
-    cart.addCartItem(addItemToCartEvent);
+    const addItemToCartEvent = cart.addItemToCart(addItemToCartCommand);
 
     eventStorage.store(addItemToCartEvent);
 

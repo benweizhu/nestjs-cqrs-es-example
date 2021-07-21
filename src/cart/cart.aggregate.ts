@@ -1,39 +1,64 @@
-import { AddItemToCartEvent, DeleteItemFromCartEvent } from "./cart.event";
+import { AddItemToCartEvent, buildAddItemToCartEvent, buildDeleteItemFromCartEvent, DeleteItemFromCartEvent } from "./cart.event";
+import { AddItemToCartCommand, DeleteItemFromCartCommand } from "./cart.model";
 
-export class Cart {
+export class EventAggregate {
+
+    eventVersion: number;
+
+    constructor(eventVersion: number) {
+        this.eventVersion = eventVersion;
+    }
+
+}
+
+export class Cart extends EventAggregate {
 
     id: string;
     items: Array<CartItem>;
 
-    constructor(id: string) {
+    constructor(id: string, eventVersion: number) {
+        super(eventVersion);
         this.id = id;
         this.items = [];
     }
 
-    addCartItem(event: AddItemToCartEvent) {
+    addItemToCart(command: AddItemToCartCommand): AddItemToCartEvent {
+        const event = buildAddItemToCartEvent(this, this.eventVersion, command);
+
+        this.onAddItemToCartEvent(event);
+
+        return event;
+    }
+
+    deleteCartItem(command: DeleteItemFromCartCommand): DeleteItemFromCartEvent {
+        if (this.items.length < 1) {
+            throw new Error(`Nothing to delete in cart`);
+        }
+
+        const event = buildDeleteItemFromCartEvent(this, this.eventVersion, command);
+
+        this.onDeleteItemFromCartEvent(event);
+
+        return event;
+    }
+
+    onAddItemToCartEvent(event: AddItemToCartEvent) {
         const { name, price } = event.eventData;
         this.items.push(new CartItem(name, price));
     }
 
-    deleteCartItem(event: DeleteItemFromCartEvent) {
-        this.validateDeleteCartItem();
-
+    onDeleteItemFromCartEvent(event: DeleteItemFromCartEvent) {
         const { name } = event.eventData
 
         const indexOfFoundItem = this.items.findIndex((item) =>
             name === item.name
         );
-        
+
         if (indexOfFoundItem > -1) {
             this.items.splice(indexOfFoundItem, 1);
         }
     }
 
-    private validateDeleteCartItem() {
-        if (this.items.length < 1) {
-            throw new Error(`Nothing to delete in cart`);
-        }
-    }
 }
 
 export class CartItem {

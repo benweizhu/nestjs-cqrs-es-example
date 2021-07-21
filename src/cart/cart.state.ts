@@ -11,9 +11,9 @@ function getLastEventVersion(events: Array<Event>) {
 
 export function getCurrentStateOfCart() {
     const events = eventStorage.query();
-    const currentStateOfCart = events.reduce(projectorReducer, new Cart('7643234567123'));
+    const lastEventVersion = getLastEventVersion(events);
+    const currentStateOfCart = events.reduce(projectorReducer, new Cart('7643234567123', lastEventVersion));
     return {
-        cart: currentStateOfCart,
-        lastEventVersion: getLastEventVersion(events)
+        cart: currentStateOfCart
     };
 }
