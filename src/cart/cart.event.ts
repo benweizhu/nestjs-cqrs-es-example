@@ -1,62 +1,68 @@
 import { Cart } from "./cart.aggregate";
 import { AddItemToCartCommand, DeleteItemFromCartCommand } from "./cart.model";
 
-export interface Event {
+export class Event {
     aggregateRootId: string;
     aggregateRootType: string;
     eventVersion: number;
     eventType: string;
     eventTime: string;
-    eventData: {},
+    eventData: {};
     commandType: string;
     commandData: {};
     commandTime: string;
 }
 
-export interface AddItemToCartEvent extends Event {
+export class AddItemToCartEvent extends Event {
+
     eventData: {
         name: string,
         price: number
     }
+
+    private constructor(cart: Cart, command: AddItemToCartCommand) {
+        super();
+        this.aggregateRootId = cart.id;
+        this.aggregateRootType = 'Cart';
+        this.eventVersion = cart.eventVersion + 1;
+        this.eventTime = new Date().toISOString();
+        this.eventData = {
+            name: command.name,
+            price: command.price
+        };
+        this.eventType = 'addItemToCart';
+        this.commandType = 'addItemToCart';
+        this.commandData = command;
+        this.commandTime = new Date().toISOString();
+    }
+
+    static build(cart: Cart, command: AddItemToCartCommand): AddItemToCartEvent {
+        return new AddItemToCartEvent(cart, command);
+    }
 }
 
-export interface DeleteItemFromCartEvent extends Event {
+export class DeleteItemFromCartEvent extends Event {
     eventData: {
         name: string
     }
-}
 
-
-export function buildDeleteItemFromCartEvent(cart: Cart, lastEventVersion: number, command: DeleteItemFromCartCommand): DeleteItemFromCartEvent {
-    return {
-        aggregateRootId: cart.id,
-        aggregateRootType: 'Cart',
-        eventVersion: lastEventVersion + 1,
-        eventTime: new Date().toISOString(),
-        eventData: {
+    private constructor(cart: Cart, command: DeleteItemFromCartCommand) {
+        super();
+        this.aggregateRootId = cart.id;
+        this.aggregateRootType = 'Cart';
+        this.eventVersion = cart.eventVersion + 1;
+        this.eventTime = new Date().toISOString();
+        this.eventData = {
             name: command.name
-        },
-        eventType: 'deleteItemFromCart',
-        commandType: 'deleteItemFromCart',
-        commandData: command,
-        commandTime: 'string'
+        };
+        this.eventType = 'deleteItemFromCart';
+        this.commandType = 'deleteItemFromCart';
+        this.commandData = command;
+        this.commandTime = new Date().toISOString();
     }
-}
 
-export function buildAddItemToCartEvent(cart: Cart, lastEventVersion: number, command: AddItemToCartCommand): AddItemToCartEvent {
-    return {
-        aggregateRootId: cart.id,
-        aggregateRootType: 'Cart',
-        eventVersion: lastEventVersion + 1,
-        eventTime: new Date().toISOString(),
-        eventData: {
-            name: command.name,
-            price: command.price
-        },
-        eventType: 'addItemToCart',
-        commandType: 'addItemToCart',
-        commandData: command,
-        commandTime: 'string'
+    static build(cart: Cart, command: DeleteItemFromCartCommand): DeleteItemFromCartEvent {
+        return new DeleteItemFromCartEvent(cart, command);
     }
 }
 

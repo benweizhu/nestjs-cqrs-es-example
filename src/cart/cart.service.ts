@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { getCurrentStateOfCart } from './cart.state';
-import { buildAddItemToCartEvent, buildDeleteItemFromCartEvent, eventStorage } from './cart.event';
+import { eventStorage } from './cart.event';
 import { AddItemToCartCommand, DeleteItemFromCartCommand } from './cart.model';
 import { Cart } from './cart.aggregate';
 

@@ -23,7 +23,7 @@ export class Cart extends EventAggregate {
     }
 
     addItemToCart(command: AddItemToCartCommand): AddItemToCartEvent {
-        const event = buildAddItemToCartEvent(this, this.eventVersion, command);
+        const event = AddItemToCartEvent.build(this, command);
 
         this.onAddItemToCartEvent(event);
 
@@ -35,7 +35,7 @@ export class Cart extends EventAggregate {
             throw new Error(`Nothing to delete in cart`);
         }
 
-        const event = buildDeleteItemFromCartEvent(this, this.eventVersion, command);
+        const event = DeleteItemFromCartEvent.build(this, command);
 
         this.onDeleteItemFromCartEvent(event);
 
