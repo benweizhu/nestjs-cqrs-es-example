@@ -3,8 +3,7 @@ import { AddItemToCartEvent, DeleteItemFromCartEvent, Event, eventStorage } from
 
 export function getCurrentStateOfCart() {
     const events = eventStorage.query();
-    const lastEventVersion = getLastEventVersion(events);
-    const currentStateOfCart = events.reduce(projectorReducer, new Cart('7643234567123', lastEventVersion));
+    const currentStateOfCart = events.reduce(projectorReducer, new Cart('7643234567123', getLastEventVersion(events)));
     return {
         cart: currentStateOfCart
     };
